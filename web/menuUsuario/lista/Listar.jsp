@@ -107,10 +107,8 @@
                 <td> <%= lista1.get(i).getTitulo() %> </td>
                 <td> <%= lista1.get(i).getAño() %> </td>
                 <td> <%= lista1.get(i).getNivel() %> </td>
-                
                 <td><img src="servletImagen?id=<%=lista1.get(i).getCodigo_libro()%>" width="300" height="200"></td>
-                
-                <td> <%= lista1.get(i).getPdf() %> </td>
+                <td><a href="servletpdf?codigoLibro=<%=lista1.get(i).getCodigo_libro()%>">PDF</a></td>
                 <td> <%= lista1.get(i).getAutor() %> </td>
                 <td> <%= lista1.get(i).getCorreo() %> </td>
                 <td> <%= lista1.get(i).getEliminado() %> </td>

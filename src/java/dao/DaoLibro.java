@@ -19,6 +19,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 
 /**
@@ -164,6 +165,31 @@ public class DaoLibro implements InterfazLibro{
         }
     }
     
+    public void ListarPDF(int id, HttpServletResponse response){
+        String sql = "SELECT * FROM libro WHERE codigo_libro=" +id;
+        
+        
+        try{
+            ServletOutputStream sos;
+            response.setContentType("application/pdf");
+            response.setHeader("Content-disposition","inline; filename="+id+".pdf" );
+            sos = response.getOutputStream();
+            
+            conexion = con.getConexion() ;
+            pst = conexion.prepareStatement(sql);
+            rs = pst.executeQuery();
+            if (rs.next())
+                    sos.write(rs.getBytes("pdf"));
+            else
+                return;
+            sos.flush();
+            sos.close();
+        }catch(Exception e){
+            
+        }
+        
+        
+    }
     
     public static void main(String[] args) throws SQLException, IOException {
         DaoLibro bl = new DaoLibro();

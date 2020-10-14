@@ -18,6 +18,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -32,11 +33,11 @@ import javax.servlet.http.Part;
 @WebServlet(name = "servletLibro", urlPatterns = {"/servletLibro"})
 @MultipartConfig
 public class servletLibro extends HttpServlet {
-    
+
     String agregar = "menuUsuario/mantenimiento/LibroAdd.jsp";
     String listar = "menuUsuario/lista/Listar.jsp";
-    String d1="menuUsuario/menuUsuario.jsp";
-    
+    String d1 = "menuUsuario/menuUsuario.jsp";
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -45,7 +46,7 @@ public class servletLibro extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet servletLibro</title>");            
+            out.println("<title>Servlet servletLibro</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet servletLibro at " + request.getContextPath() + "</h1>");
@@ -57,17 +58,17 @@ public class servletLibro extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String acceso="";
-        String recibe=request.getParameter("destino");
-        if(recibe.equalsIgnoreCase("Add")){
-            acceso=agregar;
+        String acceso = "";
+        String recibe = request.getParameter("destino");
+        if (recibe.equalsIgnoreCase("Add")) {
+            acceso = agregar;
         }
-        
-        if(recibe.equalsIgnoreCase("Listar")){
-            acceso=listar;
+
+        if (recibe.equalsIgnoreCase("Listar")) {
+            acceso = listar;
         }
-        
-        RequestDispatcher destino=request.getRequestDispatcher(acceso);
+
+        RequestDispatcher destino = request.getRequestDispatcher(acceso);
         destino.forward(request, response);
     }
 
@@ -76,10 +77,10 @@ public class servletLibro extends HttpServlet {
             throws ServletException, IOException {
 
         String operacion = request.getParameter("operacion");
-        
-        if(operacion.trim().equalsIgnoreCase("LibroAdd")){
+
+        if (operacion.trim().equalsIgnoreCase("LibroAdd")) {
             //String codigo = request.getParameter("codigo");
-            String codigoL="";
+            String codigoL = "";
             String titulo = request.getParameter("titulo");
             String año = request.getParameter("year");
             String nivel = request.getParameter("nivel");
@@ -91,12 +92,12 @@ public class servletLibro extends HttpServlet {
             String correo = request.getParameter("correo");
             String eliminado = request.getParameter("eliminado");
             String Id_Usuario = request.getParameter("Id_Usuario");
-            
-            try{
+
+            try {
                 DaoLibro objL = new DaoLibro();
                 int t = objL.ContarLibros();
-                codigoL = Integer.toString(t+1);
-                
+                codigoL = Integer.toString(t + 1);
+
                 BeansLibro l = new BeansLibro();
                 l.setCodigo_libro(Integer.parseInt(codigoL));
                 l.setTitulo(titulo);
@@ -112,22 +113,22 @@ public class servletLibro extends HttpServlet {
             } catch (SQLException ex) {
                 Logger.getLogger(servletLibro.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
+
         }
-        
-        if(operacion.trim().equalsIgnoreCase("Listar")){
-            try{
-                DaoLibro objL=new DaoLibro();
+
+        if (operacion.trim().equalsIgnoreCase("Listar")) {
+            try {
+                DaoLibro objL = new DaoLibro();
                 List<BeansLibro> lista = objL.ListarLibros();
                 request.setAttribute("lista", lista);
                 RequestDispatcher rd;
-                rd=request.getRequestDispatcher(d1);
-                rd.forward(request, response); 
+                rd = request.getRequestDispatcher(d1);
+                rd.forward(request, response);
             } catch (SQLException ex) {
                 Logger.getLogger(servletLibro.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        RequestDispatcher destino=request.getRequestDispatcher("menuUsuario/menuUsuario.jsp");
+        RequestDispatcher destino = request.getRequestDispatcher("menuUsuario/menuUsuario.jsp");
         destino.forward(request, response);
     }
 
