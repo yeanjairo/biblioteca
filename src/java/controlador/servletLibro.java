@@ -38,6 +38,7 @@ public class servletLibro extends HttpServlet {
     String d1 = "menuUsuario/menuUsuario.jsp";
     String actualizar = "menuUsuario/mantenimiento/update.jsp";
     String eliminar = "menuUsuario/mantenimiento/delete.jsp";
+    
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -61,6 +62,7 @@ public class servletLibro extends HttpServlet {
             throws ServletException, IOException {
         String acceso = "";
         String recibe = request.getParameter("destino");
+        
         if (recibe.equalsIgnoreCase("Add")) {
             acceso = agregar;
         }
@@ -76,7 +78,7 @@ public class servletLibro extends HttpServlet {
             int codigo=Integer.parseInt(Id_Libro);
             try {
                 DaoLibro ObjL = new DaoLibro();
-                List<BeansLibro> lista = ObjL.BuscarLibroPorId_Libro(codigo) ;
+                List<BeansLibro> lista = ObjL.BuscarLibroPorId_Libro(codigo);
                 request.setAttribute("lista", lista);
             }catch (Exception e) {
                 
@@ -84,18 +86,19 @@ public class servletLibro extends HttpServlet {
         }
         
         if(recibe.equalsIgnoreCase("delete")){
-            acceso = eliminar;
-            String Id_Libro=request.getParameter("id_libro");
+            acceso=eliminar;
+            String Id_Libro = request.getParameter("id_libro");
             request.setAttribute("id_libro", Id_Libro);
-            int codigo=Integer.parseInt(Id_Libro);
+            int codigo = Integer.parseInt(Id_Libro);
             try {
-                DaoLibro ObjL = new DaoLibro();
-                List<BeansLibro> lista = ObjL.BuscarLibroPorId_Libro(codigo) ;
-                request.setAttribute("lista", lista);
-            }catch (Exception e) {
-                
-            }
-        }
+                DaoLibro ObjL1 = new DaoLibro();
+                List<BeansLibro> lista = ObjL1.BuscarLibroPorId_Libro(codigo);
+                request.setAttribute("lista", lista);      
+            }catch (SQLException ex) {
+                Logger.getLogger(servletLibro.class.getName()).log(Level.SEVERE, null, ex);
+            }             
+        } 
+        
 
         RequestDispatcher destino = request.getRequestDispatcher(acceso);
         destino.forward(request, response);
@@ -191,6 +194,19 @@ public class servletLibro extends HttpServlet {
                 Logger.getLogger(servletLibro.class.getName()).log(Level.SEVERE, null, ex);
             }
             RequestDispatcher destino = request.getRequestDispatcher("menuUsuario/menuUsuario.jsp");
+            destino.forward(request, response);
+        }
+        
+        if(operacion.equalsIgnoreCase("delete")){
+            String Id_Libro=request.getParameter("codigo1");
+            //int codigo = Integer.parseInt(Id_Libro);
+            try {
+                DaoLibro ObjL = new DaoLibro();
+                ObjL.eliminado(Id_Libro);
+            }catch (Exception e) {
+                
+            }
+            RequestDispatcher destino = request.getRequestDispatcher("menuUsuario/lista/Listar.jsp");
             destino.forward(request, response);
         }
         

@@ -81,7 +81,7 @@ String p=request.getParameter("cadena");
                 </td>
             </tr>
         </table>
-        </form>
+        
         <br>
         <br>
         

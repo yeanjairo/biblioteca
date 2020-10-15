@@ -4,6 +4,9 @@
     Author     : Windows 10
 --%>
 
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.List"%>
+<%@page import="beans.BeansLibro"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 
@@ -75,5 +78,77 @@ String p=request.getParameter("cadena");
         </form>
         <br>
         <br>
+        
+<%
+       BeansLibro l=new BeansLibro();
+       List<BeansLibro> lista1=new ArrayList();      
+       lista1=(List<BeansLibro>)request.getAttribute("lista");
+       session.removeAttribute("lista");
+%>
+
+        <table align="center">
+            <tr>
+                <td align="center">
+                    <form action="servletLibro" method="post" enctype="multipart/form-data">
+                        <table>
+                            <tr>
+                                <td>Código:</td>
+                                <td><input type="text" id="codigo" name="codigo" disabled value="<%= lista1.get(0).getCodigo_libro()%>"></td>
+                                <input type="hidden" id="codigo1" name="codigo1" value="<%= lista1.get(0).getCodigo_libro()  %>">
+                            </tr>
+                            <tr>
+                                <td>Título:</td>
+                                <td><input type="text" id="titulo" name="titulo" value="<%= lista1.get(0).getTitulo() %>"></td>
+                            </tr>
+                            <tr>
+                                <td>Año:</td>
+                                <td><input type="text" id="year" name="year" value="<%= lista1.get(0).getAño() %>"></td>
+                            </tr>
+                            <tr>
+                                <td>Nivel:</td>
+                                <td><input type="text" id="nivel" name="nivel" value="<%= lista1.get(0).getNivel() %>"></td>
+                            </tr>
+                            <tr>
+                                <td>Foto:</td>
+                                <td><input type="file" id="foto" name="foto" value="<%= lista1.get(0).getFoto() %>"></td>
+                            </tr>
+                            <tr>
+                                <td>PDF:</td>
+                                <td><input type="file" id="pdf" name="pdf" value="<%= lista1.get(0).getPdf() %>"></td>
+                            </tr>
+                            <tr>
+                                <td>Autor:</td>
+                                <td><input type="text" id="autor" name="autor" value="<%= lista1.get(0).getAutor()%>"></td>
+                            </tr>
+                            <tr>
+                                <td>Correo:</td>
+                                <td><input type="text" id="correo" name="correo" value="<%= lista1.get(0).getAutor()%>"></td>
+                            </tr>
+                            <tr>
+                                <td>Eliminado:</td>
+                                <td>
+                                    <select name="eliminado" id="eliminado">
+                                        <option value="" selected></option> 
+                                        <option value="0" <%if(lista1.get(0).getEliminado().equalsIgnoreCase("0")){out.print("Selected");} %>>NO</option> 
+                                        <option value="1" <%if(lista1.get(0).getEliminado().equalsIgnoreCase("1")){out.print("Selected");} %>>SI</option> 
+                                    </select>                                                                        
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>ID Usuario:</td>
+                                <td><input type="text" id="u_codigo" name="u_codigo" disabled value="<%= lista1.get(0).getCodigo_libro() %>"></td>
+                                <input type="hidden" id="u_codigo1" name="u_codigo1" value="<%= lista1.get(0).getCodigo_libro()  %>">
+                            </tr>
+                            <tr>
+                                <input type="hidden" id="operacion" name="operacion" value="delete">
+                                <td><input type="submit" value="Eliminar"></td>
+                                <td><a href="servletLibro?destino=Listar">Regresar</a></td>
+                            </tr>
+                        </table>
+                    </form>
+                </td>
+            </tr>
+        </table>
+
     </body>
 </html>

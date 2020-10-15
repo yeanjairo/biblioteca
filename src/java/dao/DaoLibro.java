@@ -41,7 +41,7 @@ public class DaoLibro implements InterfazLibro {
 
     @Override
     public List ListarLibros() throws SQLException {
-        String sql = "SELECT * FROM libro";
+        String sql = "SELECT * FROM libro WHERE eliminado='0'" ;
         try {
             conexion = con.getConexion();
             pst = conexion.prepareStatement(sql);
@@ -125,11 +125,23 @@ public class DaoLibro implements InterfazLibro {
             pst.setString(9, l.getEliminado());
             pst.setInt(10, l.getId_Usuario());
             pst.executeUpdate();               
-         }catch(SQLException e){
+        }catch(SQLException e){
             throw e;     
         }
         
-     }
+    }
+    
+    public void eliminado(String Id_Libro)throws SQLException{
+        try{
+            String sql = "UPDATE libro SET eliminado=1 WHERE codigo_libro=?";
+            conexion = con.getConexion();
+            pst = conexion.prepareStatement(sql);
+            pst.setString(1, Id_Libro);
+            pst.executeUpdate();
+        }catch(SQLException e){
+            throw e;
+        }
+    }
 
     public void listarImg(int id, HttpServletResponse response) {
         String sql = "SELECT * FROM libro WHERE codigo_libro = " + id;
