@@ -18,6 +18,19 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
+
+<% 
+if(session.getAttribute("n")!=null || session.getAttribute("t")!=null){   
+    String n,t;
+    n=session.getAttribute("n").toString();
+    t=session.getAttribute("t").toString(); 
+}else{
+      response.sendRedirect("index.jsp");              
+}
+String p=request.getParameter("cadena");
+
+%>
+
 <html>
     <head>
         <link href="stylo/stylomenu.css" rel="stylesheet" type="text/css"/>
@@ -108,13 +121,15 @@
                 <td> <%= lista1.get(i).getAño() %> </td>
                 <td> <%= lista1.get(i).getNivel() %> </td>
                 <td><img src="servletImagen?id=<%=lista1.get(i).getCodigo_libro()%>" width="300" height="200"></td>
-                <td><a href="servletpdf?codigoLibro=<%=lista1.get(i).getCodigo_libro()%>">PDF</a></td>
+                <td><a href="servletpdf?codigoLibro=<%=lista1.get(i).getCodigo_libro()%>" target="_blank">PDF</a></td>
                 <td> <%= lista1.get(i).getAutor() %> </td>
                 <td> <%= lista1.get(i).getCorreo() %> </td>
                 <td> <%= lista1.get(i).getEliminado() %> </td>
                 <td> <%= lista1.get(i).getId_Usuario() %> </td>
-                <td colspan="2"><a></a>Editar</td>
-                <td><a></a>Eliminar</td>
+                <td>
+                    <a href="servletLibro?destino=update&id_libro=<%= lista1.get(i).getCodigo_libro() %>">Editar</a>
+                    <a href="servletLibro?destino=delete&id_libro=<%= lista1.get(i).getCodigo_libro() %>">Eliminar</a>
+                </td>
             </tr>
             
             <%
@@ -125,7 +140,6 @@
        
        }     
 %>
-       
         </table>
     </body>
 </html>

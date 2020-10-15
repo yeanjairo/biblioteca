@@ -6,7 +6,6 @@
 package beans;
 
 import java.io.InputStream;
-import javax.servlet.http.Part;
 
 /**
  *

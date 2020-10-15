@@ -62,6 +62,34 @@ public class DaoUsuario implements InterfazUsuario{
         }
     }
     
+    public List BuscarUsuarioPorId_Usuario(int Id_Usuario) throws SQLException {
+        String sql = "SELECT * FROM usuario WHERE Id_Usuario=?";
+        try {
+            conexion = con.getConexion();
+            pst = conexion.prepareStatement(sql);
+            pst.setInt(1, Id_Usuario);
+            rs = pst.executeQuery();
+            List<BeansUsuario> lista = new ArrayList<>();
+            while (rs.next()) {
+                u = new BeansUsuario();
+                u.setId_Usuario(rs.getInt(1));
+                u.setNombre(rs.getString(2));
+                u.setCargo(rs.getString(3));
+                u.setUsuario(rs.getString(4));
+                u.setClave(rs.getString(5));
+                u.setTipo(rs.getString(6));
+                u.setBorrado(rs.getString(7));
+                lista.add(u);
+            }
+            pst.close();
+            rs.close();
+            conexion.close();
+            return lista;
+        } catch (SQLException e) {
+            throw e;
+        }
+    }
+    
     /*
     public static void main(String[] args) throws SQLException, IOException {
         DaoUsuario bu = new DaoUsuario();

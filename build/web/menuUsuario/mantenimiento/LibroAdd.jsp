@@ -123,7 +123,6 @@ String p=request.getParameter("cadena");
                                 <td><input type="text" id="Id_Usuario" name="Id_Usuario"></td>
                             </tr>
                             <tr>
-                                
                                 <td><input type="submit" value="Registrar"></td>
                                 <input type="hidden" id="operacion" name="operacion" value="LibroAdd">
                                 <td><input type="reset" value="Reset"></td>
